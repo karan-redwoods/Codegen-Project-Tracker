@@ -28,104 +28,104 @@ public class ServiceImplClassGenerator {
                         "import org.slf4j.Logger;\n" +
                         "import org.slf4j.LoggerFactory;\n" +
                         "import org.springframework.stereotype.Service;\n\n" +
-                        "import %s.dtos.TimelineResponseDto;\n" +
-                        "import %s.dtos.TimelineRequestDto;\n" +
+                        "import %s.dtos.ProjectTrackerResponseDto;\n" +
+                        "import %s.dtos.ProjectTrackerRequestDto;\n" +
                         "import %s.exceptions.NotFoundException;\n" +
                         "import %s.models.Address;\n" +
-                        "import %s.models.Timeline;\n" +
-                        "import %s.models.TimelineContact;\n" +
-                        "import %s.models.TimelineData;\n" +
-                        "import %s.repos.TimelineRepository;\n" +
+                        "import %s.models.ProjectTracker;\n" +
+                        "import %s.models.ProjectTrackerContact;\n" +
+                        "import %s.models.ProjectTrackerData;\n" +
+                        "import %s.repos.ProjectTrackerRepository;\n" +
                         "import %s.service.%s;\n\n" +
                         "@Service\n" +
                         "public class %s implements %s {\n\n" +
-                        "   private TimelineRepository TimelineRepository;\n" +
+                        "   private ProjectTrackerRepository ProjectTrackerRepository;\n" +
                         "   private ModelMapper modelMapper;\n" +
                         "    private static final Logger LOGGER = LoggerFactory.getLogger(%s.class);\n\n" +
-                        "    public %s(TimelineRepository TimelineRepository, ModelMapper modelMapper) {\n" +
-                        "        this.TimelineRepository = TimelineRepository;\n" +
+                        "    public %s(ProjectTrackerRepository ProjectTrackerRepository, ModelMapper modelMapper) {\n" +
+                        "        this.ProjectTrackerRepository = ProjectTrackerRepository;\n" +
                         "        this.modelMapper = modelMapper;\n" +
                         "    }\n\n" +
                         "    @Override\n" +
-                        "    public TimelineResponseDto getTimeline(Long TimelineId) throws NotFoundException {\n" +
+                        "    public ProjectTrackerResponseDto getProjectTracker(Long ProjectTrackerId) throws NotFoundException {\n" +
                         "        try {\n" +
-                        "            Optional<Timeline> optionalTimeline = TimelineRepository.findById(TimelineId);\n" +
-                        "            if (optionalTimeline.isEmpty()) {\n" +
-                        "                throw new NotFoundException(\"Timeline Doesn't exist.\");\n" +
+                        "            Optional<ProjectTracker> optionalProjectTracker = ProjectTrackerRepository.findById(ProjectTrackerId);\n" +
+                        "            if (optionalProjectTracker.isEmpty()) {\n" +
+                        "                throw new NotFoundException(\"ProjectTracker Doesn't exist.\");\n" +
                         "            }\n\n" +
-                        "            return modelMapper.map(optionalTimeline.get(), TimelineResponseDto.class);\n" +
+                        "            return modelMapper.map(optionalProjectTracker.get(), ProjectTrackerResponseDto.class);\n" +
                         "        } catch (Exception ex) {\n" +
-                        "            LOGGER.error(\"Error occurred while processing getTimeline\", ex);\n" +
-                        "            throw new RuntimeException(\"Error occurred while processing getTimeline\", ex);\n" +
+                        "            LOGGER.error(\"Error occurred while processing getProjectTracker\", ex);\n" +
+                        "            throw new RuntimeException(\"Error occurred while processing getProjectTracker\", ex);\n" +
                         "        }\n" +
                         "    }\n\n" +
                         "    @Override\n" +
-                        "    public List<TimelineResponseDto> getTimelines() {\n" +
+                        "    public List<ProjectTrackerResponseDto> getProjectTrackers() {\n" +
                         "        try {\n" +
-                        "            List<Timeline> Timelines = TimelineRepository.findAll();\n" +
-                        "            List<TimelineResponseDto> TimelineResponseDtos = null;\n" +
-                        "            if (!Timelines.isEmpty()) {\n" +
-                        "                TimelineResponseDtos = new ArrayList<>();\n" +
-                        "                for (Timeline Timeline : Timelines) {\n" +
-                        "                    TimelineResponseDtos.add(modelMapper.map(Timeline, TimelineResponseDto.class));\n" +
+                        "            List<ProjectTracker> ProjectTrackers = ProjectTrackerRepository.findAll();\n" +
+                        "            List<ProjectTrackerResponseDto> ProjectTrackerResponseDtos = null;\n" +
+                        "            if (!ProjectTrackers.isEmpty()) {\n" +
+                        "                ProjectTrackerResponseDtos = new ArrayList<>();\n" +
+                        "                for (ProjectTracker ProjectTracker : ProjectTrackers) {\n" +
+                        "                    ProjectTrackerResponseDtos.add(modelMapper.map(ProjectTracker, ProjectTrackerResponseDto.class));\n" +
                         "                }\n" +
                         "            }\n" +
-                        "            return TimelineResponseDtos;\n" +
+                        "            return ProjectTrackerResponseDtos;\n" +
                         "        } catch (Exception ex) {\n" +
-                        "            LOGGER.error(\"Error occurred while processing getTimelines\", ex);\n" +
-                        "            throw new RuntimeException(\"Error occurred while processing getTimelines\", ex);\n" +
+                        "            LOGGER.error(\"Error occurred while processing getProjectTrackers\", ex);\n" +
+                        "            throw new RuntimeException(\"Error occurred while processing getProjectTrackers\", ex);\n" +
                         "        }\n" +
                         "    }\n\n" +
                         "    @Override\n" +
-                        "    public String deleteTimeline(Long TimelineId) {\n" +
-                        "        if (TimelineRepository.findById(TimelineId).isPresent()) {\n" +
-                        "            TimelineRepository.deleteById(TimelineId);\n" +
-                        "            return \"Timeline Deleted Successfully!!\";\n" +
+                        "    public String deleteProjectTracker(Long ProjectTrackerId) {\n" +
+                        "        if (ProjectTrackerRepository.findById(ProjectTrackerId).isPresent()) {\n" +
+                        "            ProjectTrackerRepository.deleteById(ProjectTrackerId);\n" +
+                        "            return \"ProjectTracker Deleted Successfully!!\";\n" +
                         "        }\n" +
-                        "        return \"No Timeline exists in the database with the provided id.\";\n" +
+                        "        return \"No ProjectTracker exists in the database with the provided id.\";\n" +
                         "    }\n\n" +
                         "    @Override\n" +
-                        "    public TimelineResponseDto updateTimeline(Long TimelineId, TimelineRequestDto TimelineRequestDto) {\n" +
+                        "    public ProjectTrackerResponseDto updateProjectTracker(Long ProjectTrackerId, ProjectTrackerRequestDto ProjectTrackerRequestDto) {\n" +
                         "        try {\n" +
-                        "            Optional<Timeline> optionalTimeline = TimelineRepository.findById(TimelineId);\n" +
-                        "            if (optionalTimeline.isPresent()) {\n" +
-                        "                Timeline Timeline = optionalTimeline.get();\n" +
-                        "                // Update Timeline fields based on TimelineRequestDto\n\n" +
-                        "                if (TimelineRequestDto.getTimelineContact() != null) {\n" +
-                        "                    TimelineContact TimelineContact = modelMapper.map(TimelineRequestDto.getTimelineContact(), TimelineContact.class);\n" +
-                        "                    Timeline.setTimelineContact(TimelineContact);\n" +
+                        "            Optional<ProjectTracker> optionalProjectTracker = ProjectTrackerRepository.findById(ProjectTrackerId);\n" +
+                        "            if (optionalProjectTracker.isPresent()) {\n" +
+                        "                ProjectTracker ProjectTracker = optionalProjectTracker.get();\n" +
+                        "                // Update ProjectTracker fields based on ProjectTrackerRequestDto\n\n" +
+                        "                if (ProjectTrackerRequestDto.getProjectTrackerContact() != null) {\n" +
+                        "                    ProjectTrackerContact ProjectTrackerContact = modelMapper.map(ProjectTrackerRequestDto.getProjectTrackerContact(), ProjectTrackerContact.class);\n" +
+                        "                    ProjectTracker.setProjectTrackerContact(ProjectTrackerContact);\n" +
                         "                }\n\n" +
                         "                // update address\n" +
-                        "                if (TimelineRequestDto.getAddress() != null) {\n" +
-                        "                    List<Address> addressList = List.of(modelMapper.map(TimelineRequestDto.getAddress(), Address[].class));\n" +
-                        "                    Timeline.setAddress(addressList);\n" +
+                        "                if (ProjectTrackerRequestDto.getAddress() != null) {\n" +
+                        "                    List<Address> addressList = List.of(modelMapper.map(ProjectTrackerRequestDto.getAddress(), Address[].class));\n" +
+                        "                    ProjectTracker.setAddress(addressList);\n" +
                         "                }\n\n" +
-                        "                // update Timeline data\n" +
-                        "                if (TimelineRequestDto.getTimelineData() != null) {\n" +
-                        "                    List<TimelineData> TimelineDataList = List.of(modelMapper.map(TimelineRequestDto.getTimelineData(), TimelineData[].class));\n" +
-                        "                    Timeline.setTimelineData(TimelineDataList);\n" +
+                        "                // update ProjectTracker data\n" +
+                        "                if (ProjectTrackerRequestDto.getProjectTrackerData() != null) {\n" +
+                        "                    List<ProjectTrackerData> ProjectTrackerDataList = List.of(modelMapper.map(ProjectTrackerRequestDto.getProjectTrackerData(), ProjectTrackerData[].class));\n" +
+                        "                    ProjectTracker.setProjectTrackerData(ProjectTrackerDataList);\n" +
                         "                }\n\n" +
                         "                // Update other fields\n" +
                         "                // ...\n\n" +
-                        "                Timeline.setLast_updated_by(\"admin\");\n" +
-                        "                Timeline.setLast_updated_on(System.currentTimeMillis());\n\n" +
-                        "                return modelMapper.map(TimelineRepository.save(Timeline), TimelineResponseDto.class);\n" +
+                        "                ProjectTracker.setLast_updated_by(\"admin\");\n" +
+                        "                ProjectTracker.setLast_updated_on(System.currentTimeMillis());\n\n" +
+                        "                return modelMapper.map(ProjectTrackerRepository.save(ProjectTracker), ProjectTrackerResponseDto.class);\n" +
                         "            } else {\n" +
                         "                return null;\n" +
                         "            }\n" +
                         "        } catch (Exception ex) {\n" +
-                        "            LOGGER.error(\"Error occurred while processing updateTimelines\", ex);\n" +
-                        "            throw new RuntimeException(\"Error occurred while processing updateTimelines\", ex);\n" +
+                        "            LOGGER.error(\"Error occurred while processing updateProjectTrackers\", ex);\n" +
+                        "            throw new RuntimeException(\"Error occurred while processing updateProjectTrackers\", ex);\n" +
                         "        }\n" +
                         "    }\n\n" +
                         "    @Override\n" +
-                        "    public Long addTimeline(Timeline Timeline) {\n" +
+                        "    public Long addProjectTracker(ProjectTracker ProjectTracker) {\n" +
                         "        try {\n" +
-                        "            Timeline newTimeline = TimelineRepository.save(Timeline);\n" +
-                        "            return newTimeline.getId();\n" +
+                        "            ProjectTracker newProjectTracker = ProjectTrackerRepository.save(ProjectTracker);\n" +
+                        "            return newProjectTracker.getId();\n" +
                         "        } catch (Exception ex) {\n" +
-                        "            LOGGER.error(\"Error occurred while processing addTimelines\", ex);\n" +
-                        "            throw new RuntimeException(\"Error occurred while processing addTimelines\", ex);\n" +
+                        "            LOGGER.error(\"Error occurred while processing addProjectTrackers\", ex);\n" +
+                        "            throw new RuntimeException(\"Error occurred while processing addProjectTrackers\", ex);\n" +
                         "        }\n" +
                         "    }\n" +
                         "}\n",

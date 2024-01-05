@@ -13,24 +13,24 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(servers = {@Server(url = "/codegenTimeLine/v1", description = "default url")})
 @Configuration
 @SpringBootApplication
-public class CodegenTimelineApp implements CommandLineRunner {
+public class CodegenProjectTrackerApp implements CommandLineRunner {
 
 	@Autowired
 	private CodeGenerator codeGenerator;
 
 	public static void main(String[] args) {
-		SpringApplication.run(CodegenTimelineApp.class, args);
+		SpringApplication.run(CodegenProjectTrackerApp.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		codeGenerator.generateCRUDCode("Timeline");
+		codeGenerator.generateCRUDCode("ProjectTracker");
 
 	}
 
 	@Bean
 	public OpenAPI userMicroserviceOpenAPI() {
 		return new OpenAPI()
-				.info(new Info().title("Timeline Service API").description("Timeline Service APIs").version("1.0"));
+				.info(new Info().title("ProjectTracker Service API").description("ProjectTracker Service APIs").version("1.0"));
 	}
 }
